@@ -1,3 +1,5 @@
+**This repo contains a fix for Rails 3.1 which is not yet available in the official repo**
+
 # ActsAsParanoid
 
 A simple plugin which hides records instead of deleting them, being able to recover them.
@@ -51,7 +53,7 @@ You can also definitively delete a record by calling `destroy` or `delete_all` o
 Recovery is easy. Just invoke `recover` on it, like this:
 
     Paranoiac.only_deleted.where("name = ?", "not dead yet").first.recover
-    
+
 All associations marked as `:dependent => :destroy` are also recursively recovered. If you would like to disable this behavior, you can call `recover` with the `recursive` option:
 
     Paranoiac.only_deleted.where("name = ?", "not dead yet").first.recover(:recursive => false)
@@ -72,7 +74,7 @@ By default when using timestamp fields to mark deletion, dependent records will 
     class Paranoid < ActiveRecord::Base
         belongs_to :paranoic
 
-        # Paranoid objects will be recovered alongside Paranoic objects 
+        # Paranoid objects will be recovered alongside Paranoic objects
         # if they were deleted within 1 minute of the Paranoic object
         acts_as_paranoid :dependent_recovery_window => 1.minute
     end
@@ -89,10 +91,10 @@ ActiveRecord's built-in uniqueness validation does not account for records delet
       validates_as_paranoid
       validates_uniqueness_of_without_deleted :name
     end
-  
+
     Paranoiac.create(:name => 'foo').destroy
     Paranoiac.new(:name => 'foo').valid? #=> true
-    
+
 
 ### Status
 Once you retrieve data using `with_deleted` scope you can check deletion status using `deleted?` helper:
